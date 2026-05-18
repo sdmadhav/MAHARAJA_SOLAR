@@ -1419,6 +1419,11 @@
     }
     document.getElementById('applicationForm').style.display = 'none';
     document.getElementById('formSuccess').style.display = 'block';
+    await fetch('https://formspree.io/f/xredgopp', {
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify({ name, mobile, district })
+});
   }
 </script>
 </body>
