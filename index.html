@@ -1401,7 +1401,7 @@
   }
 
   // Form submit
-  function submitForm() {
+  async function submitForm() {
     const name = document.getElementById('fullName').value.trim();
     const mobile = document.getElementById('mobile').value.trim();
     const district = document.getElementById('district').value.trim();
@@ -1410,21 +1410,39 @@
     const kw = document.getElementById('kwSystem').value;
 
     if (!name || !mobile || !district || !discom || !bill || !kw) {
-      alert('कृपया सभी ज़रूरी fields (*) भरें।');
-      return;
+        alert('कृपया सभी ज़रूरी fields (*) भरें।');
+        return;
     }
+
     if (mobile.length !== 10 || !/^\d+$/.test(mobile)) {
-      alert('Valid 10-digit mobile number enter करें।');
-      return;
+        alert('Valid 10-digit mobile number enter करें।');
+        return;
     }
+
     document.getElementById('applicationForm').style.display = 'none';
     document.getElementById('formSuccess').style.display = 'block';
-    await fetch('https://formspree.io/f/xredgopp', {
-  method: 'POST',
-  headers: {'Content-Type': 'application/json'},
-  body: JSON.stringify({ name, mobile, district })
-});
-  }
+
+    try {
+        await fetch('https://formspree.io/f/xredgopp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name,
+                mobile,
+                district,
+                discom,
+                bill,
+                kw
+            })
+        });
+
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('Form submit करने में समस्या हुई।');
+    }
+}
 </script>
 </body>
 </html>
